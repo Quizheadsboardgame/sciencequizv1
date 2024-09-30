@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCIENCE QUIZ 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif; /* Standard font */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: transparent; /* Fully transparent background */
+            color: black; /* Standard text color */
+            text-align: center;
+        }
+
+        #quiz-container {
+            background-color: transparent; /* Fully transparent container */
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        #logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .answer {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: white; /* Change the answer color to white */
+        }
+
+        #next-button {
+            background-color: white; /* Change background color to white */
+            color: black; /* Change text color to black for visibility */
+            border: 2px solid #ff9900; /* Optional: Add a border for better visibility */
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #next-button:hover {
+            background-color: #ffcc00; /* Change hover color for better effect */
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fadeOut {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        .fadeIn {
+            animation: fadeIn 0.5s forwards;
+        }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <img id="logo" src="https://i.imgur.com/cyZ0Z21.png" alt="George Michael Logo">
+    <h1>SCIENCE QUIZ 1</h1>
+    <div id="question-container">
+        <div class="question" id="question">Loading question...</div>
+        <div class="answer" id="answer">Loading answer...</div>
+        <button id="next-button" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<script>
+    // Question and answers data
+    const quizData = [
+        { question: 'What does DNA stand for?', answer: 'Deoxyribonucleic acid' },
+        { question: 'How many bones are in the human body?', answer: '206' },
+        { question: 'The concept of gravity was discovered by which famous physicist?', answer: 'Sir Isaac Newton' },
+        { question: 'What is the hardest natural substance on Earth?', answer: 'Diamond' },
+        { question: 'Which is the main gas that makes up the Earth\'s atmosphere?', answer: 'Nitrogen' },
+        { question: 'Humans and chimpanzees share roughly how much DNA?', answer: '98 per cent' },
+        { question: 'What is the most abundant gas in the Earth\'s atmosphere?', answer: 'Nitrogen' },
+        { question: 'Roughly how long does it take for the sun\'s light to reach Earth – 8 minutes, 8 hours, or 8 days?', answer: '8 minutes' },
+        { question: 'Which famous British physicist wrote A Brief History of Time?', answer: 'Stephen Hawking' },
+        { question: 'At what temperature are Celsius and Fahrenheit equal?', answer: '-40' },
+        { question: 'What modern-day country was Marie Curie born in?', answer: 'Poland' },
+        { question: 'What is the biggest planet in our solar system?', answer: 'Jupiter' },
+        { question: 'What name is given to the number of protons found in the nucleus of an atom?', answer: 'Atomic number' },
+        { question: 'How many vertebrae does the average human possess?', answer: '33' },
+        { question: 'What was the name of the first man-made satellite launched by the Soviet Union in 1957?', answer: 'Sputnik 1' },
+        { question: 'Which oath of ethics taken by doctors is named after an Ancient Greek physician?', answer: 'Hippocratic Oath' },
+        { question: 'What is a material that will not carry an electrical charge called?', answer: 'Insulator' },
+        { question: 'Which Apollo moon mission was the first to carry a lunar rover?', answer: 'Apollo 15' },
+        { question: 'How many teeth does an adult human have?', answer: '32' },
+        { question: 'What is the study of mushrooms called?', answer: 'Mycology' },
+        { question: 'How many brains and how many hearts does an octopus have?', answer: '9 brains, 3 hearts' },
+        { question: 'What is the only letter not to appear on the periodic table?', answer: 'J' },
+        { question: 'What is the fastest land animal in the world?', answer: 'Cheetah' },
+        { question: 'What is the only even prime number?', answer: '2' },
+        { question: 'What do the letters in the word laser stand for?', answer: 'Light Amplification by Stimulated Emission of Radiation' },
+        { question: 'What is the perimeter of a circle called?', answer: 'The circumference' },
+        { question: 'Sound travels faster in air than in water: true or false?', answer: 'False' },
+        { question: 'Which of the world\'s oceans is the deepest?', answer: 'The Pacific' },
+        { question: 'What was the name of the first artificial satellite to enter space?', answer: 'Sputnik 1' },
+        { question: 'Who is credited with the creation of the World Wide Web?', answer: 'Tim Berners-Lee' },
+        { question: 'Lightning is hotter than the surface of the sun: true or false?', answer: 'True' },
+        { question: 'Where in the human body can the smallest bone be found?', answer: 'The ear' },
+        { question: 'How many bones do sharks have?', answer: 'Zero' },
+        { question: 'What is sphenopalatine ganglioneuralgia the scientific term for?', answer: 'Brain freeze' },
+        { question: 'What does USB stand for?', answer: 'Universal Serial Bus' },
+        { question: 'What is the largest desert on Earth?', answer: 'Antarctica' },
+        { question: 'In which year were the first collisions achieved in the Large Hadron Collider?', answer: '2010' },
+        { question: 'What is the heaviest organ in the human body?', answer: 'The liver' },
+        { question: 'What is the rarest blood type in humans?', answer: 'AB Negative' },
+        { question: 'In which year was Pluto reclassified as a Dwarf Planet?', answer: '2006' },
+        { question: 'What is the biggest animal in the world?', answer: 'The Antarctic blue whale' },
+        { question: 'What is the only active volcano on mainland Europe called?', answer: 'Mount Vesuvius' },
+        { question: 'What is desquamation the scientific term for?', answer: 'Peeling skin' },
+        { question: 'How many days on Earth does it take for Venus to rotate once on its axis?', answer: '243' },
+        { question: 'How many states of matter are there?', answer: '4 – solid, liquid, gas, and plasma' },
+        { question: 'What does a Geiger Counter measure?', answer: 'Radiation' },
+        { question: 'What are natural satellites colloquially known as?', answer: 'Moons' },
+        { question: 'In which year did the Apollo 13 space mission take place?', answer: '1970' },
+        { question: 'What metal is the best conductor of electricity?', answer: 'Silver' },
+        { question: 'What was the first vaccine to be developed against a contagious disease?', answer: 'The smallpox vaccine' }
+    ];
+
+    let currentQuestionIndex = 0;
+    let usedQuestions = [];
+    
+    // Shuffle the questions in random order
+    function shuffleQuestions() {
+        usedQuestions = [];
+        const shuffledData = quizData.sort(() => Math.random() - 0.5);
+        return shuffledData;
+    }
+
+    let shuffledQuizData = shuffleQuestions();
+
+    function showQuestion() {
+        const questionContainer = document.getElementById("question");
+        const answerContainer = document.getElementById("answer");
+
+        if (currentQuestionIndex < shuffledQuizData.length) {
+            questionContainer.innerText = shuffledQuizData[currentQuestionIndex].question;
+            answerContainer.innerText = shuffledQuizData[currentQuestionIndex].answer;
+
+            questionContainer.classList.remove('fadeOut');
+            answerContainer.classList.remove('fadeOut');
+
+            questionContainer.classList.add('fadeIn');
+            answerContainer.classList.add('fadeIn');
+        }
+    }
+
+    function nextQuestion() {
+        const questionContainer = document.getElementById("question");
+        const answerContainer = document.getElementById("answer");
+
+        currentQuestionIndex++;
+        
+        questionContainer.classList.remove('fadeIn');
+        answerContainer.classList.remove('fadeIn');
+
+        questionContainer.classList.add('fadeOut');
+        answerContainer.classList.add('fadeOut');
+
+        setTimeout(() => {
+            if (currentQuestionIndex < shuffledQuizData.length) {
+                showQuestion();
+            } else {
+                // Reset the quiz
+                currentQuestionIndex = 0;
+                shuffledQuizData = shuffleQuestions(); // Reshuffle questions
+                showQuestion(); // Show the first question again
+            }
+        }, 500);
+    }
+
+    // Show the first question on page load
+    showQuestion();
+</script>
+
+</body>
+</html>
